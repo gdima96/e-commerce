@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import logo from "../assets/logo.png";
 import cart_icon from "../assets/cart_icon.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [menu, setMenu] = useState("shop");
+
+  const menuItems = [
+    { name: "Shop", path: "/" },
+    { name: "Men", path: "/men" },
+    { name: "Women", path: "/women" },
+    { name: "Kids", path: "/kids" },
+  ];
 
   return (
     <div className="Navbar">
@@ -13,12 +21,25 @@ const Navbar = () => {
         <p>SHOPPER</p>
       </div>
       <ul className="nav-menu">
+        {menuItems.map(({ name, path }) => (
+          <li key={name} onClick={() => setMenu(name.toLowerCase())}>
+            <Link style={{ textDecoration: "none" }} to={path}>
+              {name}
+            </Link>
+            {menu === name.toLowerCase() && <hr />}
+          </li>
+        ))}
+      </ul>
+      {/* <ul className="nav-menu">
         <li
           onClick={() => {
             setMenu("shop");
           }}
         >
-          Shop
+          <Link style={{ textDecoration: "none" }} to="/">
+            Shop
+          </Link>
+
           {menu === "shop" && <hr />}
         </li>
         <li
@@ -26,26 +47,40 @@ const Navbar = () => {
             setMenu("men");
           }}
         >
-          Men {menu === "men" && <hr />}
+          <Link style={{ textDecoration: "none" }} to="men">
+            Men
+          </Link>
+          {menu === "men" && <hr />}
         </li>
         <li
           onClick={() => {
             setMenu("women");
           }}
         >
-          Women {menu === "women" && <hr />}
+          <Link style={{ textDecoration: "none" }} to="women">
+            Women
+          </Link>
+          {menu === "women" && <hr />}
         </li>
         <li
           onClick={() => {
             setMenu("kids");
           }}
         >
-          Kids {menu === "kids" && <hr />}
+          <Link style={{ textDecoration: "none" }} to="kids">
+            Kids
+          </Link>
+          {menu === "kids" && <hr />}
         </li>
-      </ul>
+      </ul> */}
       <div className="nav-login-cart">
-        <button>Login</button>
-        <img src={cart_icon} alt="" />
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+
+        <Link to="/cart">
+          <img src={cart_icon} alt="" />{" "}
+        </Link>
         <div className="nav-cart-count">0</div>
       </div>
     </div>
