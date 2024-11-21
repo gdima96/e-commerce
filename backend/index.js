@@ -14,10 +14,8 @@ app.use(cors());
 //  Database Connection With MongoDB  ..
 
 // mongoose.connect(
-//   "mongodb+srv://gamid393:lj8I1BKz3Y8EVppY@cluster0.ao5al.mongodb.net/e-commerce"
+//   "mongodb+srv://gamid393:lj8I1BKz3Y8EVppY@cluster0.ao5al.mongodb.net/e-commerce "
 // );
-
-require("dotenv").config();
 
 const port = process.env.PORT || 4000; // Use the PORT from .env
 mongoose.connect(process.env.MONGO_URI); // Use the MONGO_URI from .env
@@ -87,7 +85,7 @@ const Products = mongoose.model("Product", {
     default: Date.now,
   },
   available: {
-    type: boolean,
+    type: Boolean,
     default: true,
   },
 });
