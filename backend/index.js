@@ -11,12 +11,6 @@ require("dotenv").config();
 app.use(express.json());
 app.use(cors());
 
-//  Database Connection With MongoDB  ..
-
-// mongoose.connect(
-//   "mongodb+srv://gamid393:lj8I1BKz3Y8EVppY@cluster0.ao5al.mongodb.net/e-commerce "
-// );
-
 const port = process.env.PORT || 4000; // Use the PORT from .env
 mongoose.connect(process.env.MONGO_URI); // Use the MONGO_URI from .env
 
