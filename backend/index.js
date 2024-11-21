@@ -102,3 +102,17 @@ app.post("/addproduct", async (req, res) => {
     name: req.body.name,
   });
 });
+
+// Creating API for getting all products
+app.get("/allproducts", async (req, res) => {
+  try {
+    console.log("Fetching all products...");
+    let products = await Product.find({});
+    console.log("All Products Fetched:", products);
+    res.send(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    console.error("Stack trace:", error.stack);
+    res.status(500).send("Internal Server Error");
+  }
+});
