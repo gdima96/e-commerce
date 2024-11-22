@@ -11,9 +11,8 @@ require("dotenv").config();
 app.use(express.json());
 app.use(cors());
 
-const port = process.env.PORT || 4000; // Use the PORT from .env
-mongoose.connect(process.env.MONGO_URI); // Use the MONGO_URI from .env
-
+const port = process.env.PORT || 4000;
+mongoose.connect(process.env.MONGO_URI);
 // API Creation
 
 app.get("/", (req, res) => {
@@ -52,7 +51,7 @@ app.post("/upload", upload.single("product"), (req, res) => {
 
 // Schema for Creating Products
 
-const Products = mongoose.model("Product", {
+const Product = mongoose.model("Product", {
   id: { type: Number, required: true },
   name: {
     type: String,
@@ -89,7 +88,7 @@ app.post("/addproduct", async (req, res) => {
   const product = new Product({
     id: req.body.id,
     name: req.body.name,
-    key: req.body.image,
+    image: req.body.image,
     category: req.body.category,
     new_price: req.body.new_price,
     old_price: req.body.old_price,
