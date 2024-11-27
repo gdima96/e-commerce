@@ -8,6 +8,7 @@
   margin: 30px;
   border-radius: 6px;
   background: white;
+  overflow-y: auto;
 }
 .listproduct-format-main {
   display: grid;
@@ -18,17 +19,25 @@
   color: #454545;
   font-size: 15px;
   font-weight: 600;
+  text-align: center;
 }
 .listproduct-format {
+  display: grid;
+  gap: 10px;
   align-items: center;
+  width: 100%;
+  padding: 15px 0px;
   font-weight: 500;
 }
 
 .listproduct-product-icon {
-  height: 80px;
+  height: 220px;
 }
 
 .listproduct-remove-icon {
   cursor: pointer;
   margin: auto;
+}
+.list-product-allproducts {
+  overflow-y: auto;
 }
