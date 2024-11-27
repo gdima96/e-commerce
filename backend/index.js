@@ -7,6 +7,8 @@ const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 require("dotenv").config();
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 app.use(express.json());
 app.use(cors());
@@ -105,10 +107,14 @@ app.post("/signup", async (req, res) => {
   for (let i = 0; i < 300; i++) {
     cart[i] = 0;
   }
+
+  const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+  console.log("Hashed Password:", hashedPassword); // Log the hashed password for debugging
+
   const user = new Users({
     name: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: hashedPassword, // Store the hashed password
     cartData: cart,
   });
   await user.save();
@@ -119,11 +125,55 @@ app.post("/signup", async (req, res) => {
     },
   };
 
-  const token = jwt.sign(data, "secret_ecom"); //not readable
-  res.json({ success: true, token });
+  try {
+    const token = jwt.sign(data, "secret_ecom"); // Generate JWT token
+    res.json({ success: true, token, hashedPassword });
+  } catch (error) {
+    console.error("Error generating token:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error during signup",
+    });
+  }
 });
 
-// Create an endpoint
+// Creating an endpoint for User Login
+app.post("/login", async (req, res) => {
+  try {
+    // Check if the email exists in the database
+    let check = await Users.findOne({ email: req.body.email });
+    if (!check) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+      });
+    }
+
+    // Compare the entered password with the stored hashed password
+    const passIsMatch = await bcrypt.compare(req.body.password, check.password);
+    if (!passIsMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+      });
+    }
+
+    // If login is successful, return success message
+    return res.status(200).json({
+      success: true,
+      message: "Login successfully",
+    });
+  } catch (error) {
+    // Catch any unexpected errors and respond with a server error message
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+});
+
+// Create an endpoint for all products
 app.post("/addproduct", async (req, res) => {
   let products = await Product.find({});
   let id;
