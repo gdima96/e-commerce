@@ -50,7 +50,6 @@ app.post("/upload", upload.single("product"), (req, res) => {
 });
 
 // Schema for Creating Products
-
 const Product = mongoose.model("Product", {
   id: { type: Number, required: true },
   name: {
@@ -81,6 +80,47 @@ const Product = mongoose.model("Product", {
     type: Boolean,
     default: true,
   },
+});
+
+// Schema creating for User Model
+
+const Users = mongoose.model("Users", {
+  name: { type: String },
+  email: { type: String, unigue: true },
+  password: { type: String },
+  cartData: { type: Object },
+  date: { type: Date, default: Date.now },
+});
+
+// Creating Endpoint for registering the user.
+app.post("/signup", async (req, res) => {
+  let check = await Users.findOne({ email: req.body.email });
+  if (check) {
+    return res.status(400).json({
+      success: false,
+      error: "Existing user found with the same email address.",
+    });
+  }
+  let cart = {};
+  for (let i = 0; i < 300; i++) {
+    cart[i] = 0;
+  }
+  const user = new Users({
+    name: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    cartData: cart,
+  });
+  await user.save();
+
+  const data = {
+    user: {
+      id: user.id,
+    },
+  };
+
+  const token = jwt.sign(data, "secret_ecom"); //not readable
+  res.json({ success: true, token });
 });
 
 // Create an endpoint
