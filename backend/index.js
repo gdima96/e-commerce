@@ -226,3 +226,11 @@ app.get("/allproducts", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+// Creating endpoint for New Collection data
+app.get("/newcollections", async (req, res) => {
+  let products = await Product.find({});
+  let newcollection = products.slice(1).slice(-8);
+  console.log("New Collection Fetched");
+  res.send(newcollection);
+});
