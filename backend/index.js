@@ -95,6 +95,7 @@ const Users = mongoose.model("Users", {
 });
 
 // Creating Endpoint for registering the user.
+
 app.post("/signup", async (req, res) => {
   let check = await Users.findOne({ email: req.body.email });
   if (check) {
@@ -109,7 +110,7 @@ app.post("/signup", async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-  console.log("Hashed Password:", hashedPassword); // Log the hashed password for debugging
+  // console.log("Hashed Password:", hashedPassword);
 
   const user = new Users({
     name: req.body.username,
