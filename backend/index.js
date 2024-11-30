@@ -234,3 +234,16 @@ app.get("/newcollections", async (req, res) => {
   console.log("New Collection Fetched");
   res.send(newcollection);
 });
+
+// Creating endpoint for Popular in Women Section
+app.get("/popularinwomen", async (req, res) => {
+  let products = await Product.find({ category: "women" });
+  let popular_in_women = products.slice(0, 4);
+  console.log("Popular in women fetched");
+  res.send(popular_in_women);
+});
+
+// Creating endpoint for adding products in cart
+app.post("./addtocart", async (req, res) => {
+  console.log(req.body);
+});
