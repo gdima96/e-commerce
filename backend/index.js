@@ -243,7 +243,26 @@ app.get("/popularinwomen", async (req, res) => {
   res.send(popular_in_women);
 });
 
+// Creading middleware to fetch user
+const fetchUser = async (req, res, next) => {
+  const token = req.header("auth-token");
+  if (!token) {
+    res.status(401).send({ errors: "Please authenticate using valid token" });
+  } else {
+    try {
+      const data = jwt.verify(token, "secret_ecom");
+      req.user = data.user; //decoding the token
+      next();
+    } catch (error) {
+      console.error("Token verification failed:", error.message);
+      res
+        .status(401)
+        .json({ error: "Invalid authentication token. Please log in again." });
+    }
+  }
+};
+
 // Creating endpoint for adding products in cart
-app.post("./addtocart", async (req, res) => {
-  console.log(req.body);
+app.post("/addtocart", fetchUser, async (req, res) => {
+  console.log(req.body, req.user);
 });
