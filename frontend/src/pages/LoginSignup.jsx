@@ -30,7 +30,7 @@ const LoginSignup = () => {
       localStorage.setItem("auth-token", responseData.token);
       window.location.replace("/");
     } else {
-      alert(responseData.errors);
+      alert(responseData.message);
     }
   };
   const signUp = async () => {
@@ -51,7 +51,7 @@ const LoginSignup = () => {
       localStorage.setItem("auth-token", responseData.token);
       window.location.replace("/");
     } else {
-      alert(responseData.errors);
+      alert(responseData.error);
     }
   };
 

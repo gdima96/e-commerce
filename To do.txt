@@ -1,4 +1,3 @@
-UPDATES:
-1. Alert message when wrong password + other cases.
-2. Add all products to DB in order to fetch them in ShopContext.jsx
-3. CSS of Product's Price - impr needed
+IMPROVEMENTS:
+1. Creating middleware to fetch user
+2. Save cart proucts in the account.
